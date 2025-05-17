@@ -59,10 +59,86 @@ Functional Simulation:
 */Program  for  4-Bit Up-Down Counter
 
 	Use Save option or Ctrl+S to save the code or click on the save option from the top most right corner and close the text file.
+ 
+ code 
 
+`timescale 1ns / 1 ns
+
+module counter(clk,m,rst,count);
+
+input clk,m,rst;
+
+output reg [3:0] count;
+
+always@(posedge clk or negedge rst)
+
+begin
+
+if (!rst)
+
+count=0;
+
+else if(m)
+
+count=count+1;
+
+else
+
+count=count-1;
+
+end
+
+endmodule
 ## Creating Test bench:
 
 	Similarly, create your test bench using gedit <filename_tb>.v or <filename_tb>.vhdl to open a new blank document (4bitup_down_count_tb.v).
+
+ code
+
+
+`timescale 1ns / 1ns
+
+module counter_test;
+
+reg clk,rst,m;
+
+wire [3:0] count;
+
+initial
+
+begin
+
+clk=0;
+
+rst=0;
+
+#5;
+
+rst=1;
+
+end
+
+initial
+
+begin
+
+m=1;
+
+#160 m=0;
+
+end
+
+counter counter1 (clk,m,rst, count);
+
+always #5 clk=~clk;
+ 
+initial $monitor("Time=%t rst=%b clk=%b count=%b" , $time,rst,clk,count);
+
+initial
+
+#320 $finish;
+
+endmodule
 
 ### Test-bench code for 4-Bit Up-Down Counter:
 
@@ -80,8 +156,10 @@ It will invoke the nclaunch window for functional simulation we can compile,elab
 Select Multiple Step and then select “Create cds.lib File” as shown in below figure
 
 Click the cds.lib file and save the file by clicking on Save option
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (14)](https://github.com/user-attachments/assets/df4792e6-903a-49b3-931c-b5b34061c3e0)
 
 ## Fig 4: cds.lib file Creation
+![WhatsApp Image 2025-05-16 at 5 47 41 PM (20)](https://github.com/user-attachments/assets/688a446c-f022-4392-8ae1-aaa801a33024)
 
 	Save cds.lib file and select the correct option for cds.lib file format based on the  HDL Language and Libraries used.
 
@@ -98,12 +176,15 @@ Click the cds.lib file and save the file by clicking on Save option
 	Left side you can see the HDL files. Right side of the window has worklib and snapshots directories listed.
 
 	Worklib is the directory where all the compiled codes are stored while Snapshot will have output of elaboration which in turn goes for simulation
+![WhatsApp Image 2025-05-16 at 5 47 41 PM (21)](https://github.com/user-attachments/assets/166d4df1-bb41-4d89-af75-13ebbbddf731)
 
 ## Fig 6: Nclaunch Window
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (5)](https://github.com/user-attachments/assets/a076a3c0-c756-4e9c-9390-2cb367b92e4b)
 
 To perform the function simulation, the following three steps are involved Compilation, Elaboration and Simulation.
 
 ## Step 1: Compilation:– Process to check the correct Verilog language syntax and usage 
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (5)](https://github.com/user-attachments/assets/6d6d7ae9-2153-4152-af28-5f6a9307fd35)
 
 	Inputs: Supplied are Verilog design and test bench codes 
 
@@ -124,6 +205,7 @@ i.e Cadence IES command for compile: ncverilog +access+rwc -compile fa.v
 Worklib is the directory where all the compiled codes are stored while Snapshot will have output of elaboration which in turn goes for simulation 
 
 ## Fig 7: Compiled database in worklib
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (6)](https://github.com/user-attachments/assets/e5547a35-17cd-4c73-b99a-5c77a9d4c543)
 
 	After compilation it will come under worklib you can see in right side window
 
@@ -134,25 +216,27 @@ It contains statements that map logical library names to their physical director
 
 ## Step 2: Elaboration:– To check the port connections in hierarchical design 
 
+
 	Inputs: Top level design / test bench Verilog codes
 
 	Outputs: Elaborate database updated in mapped library if successful, generates report else error reported in log file 
 
 	Steps for elaboration – Run the elaboration command with elaborate options 
 
-1.	It builds the module hierarchy
-	
-3.	Binds modules to module instances
-  
-5.	Computes parameter values
-  
-7.	Checks for hierarchical names conflicts
-  
-9.	It also establishes net connectivity and prepares all of this for simulation
-    
-	After elaboration the file will come under snapshot. Select the test bench and simulate it. 
+1.It builds the module hierarchy
 
+2.Binds modules to module instances
+
+3.Computes parameter values
+
+4.Checks for hierarchical names conflicts
+
+5.It also establishes net connectivity and prepares all of this for simulation
+
+ After elaboration the file will come under snapshot. Select the test bench and simulate it.
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (6)](https://github.com/user-attachments/assets/6cae39ea-c082-49c0-b59c-1f41622024ae)
 ## Fig 8: Elaboration Launch Option
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (8)](https://github.com/user-attachments/assets/3a6fb171-ff06-44d8-a583-9782dacf1493)
 
 ### Step 3: Simulation: – Simulate with the given test vectors over a period of time to observe the output behaviour. 
 
@@ -165,10 +249,13 @@ It contains statements that map logical library names to their physical director
 	Steps for simulation – Run the simulation command with simulator options
 
 ## Fig 9: Design Browser window for simulation
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (8)](https://github.com/user-attachments/assets/10341f07-0d3d-42f8-8448-2201cbb8b9fe)
 
 ## Fig 10: Simulation Waveform Window
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (9)](https://github.com/user-attachments/assets/0a4d4866-ad90-4e11-85fb-d8dfa09a6efe)
 
 ## Fig 11: Simulation Waveform Window
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (10)](https://github.com/user-attachments/assets/bbe0d31f-04c8-4bf6-b100-06dd1e55b3f6)
 
 ### Result
 
