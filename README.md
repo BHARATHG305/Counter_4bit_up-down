@@ -60,10 +60,86 @@ Functional Simulation:
 
 	Use Save option or Ctrl+S to save the code or click on the save option from the top most right corner and close the text file.
 
+code 
+
+`timescale 1ns / 1 ns
+
+module counter(clk,m,rst,count);
+
+input clk,m,rst;
+
+output reg [3:0] count;
+
+always@(posedge clk or negedge rst)
+
+begin
+
+if (!rst)
+
+count=0;
+
+else if(m)
+
+count=count+1;
+
+else
+
+count=count-1;
+
+end
+
+endmodule
+
 ## Creating Test bench:
 
 	Similarly, create your test bench using gedit <filename_tb>.v or <filename_tb>.vhdl to open a new blank document (4bitup_down_count_tb.v).
 
+code
+
+
+`timescale 1ns / 1ns
+
+module counter_test;
+
+reg clk,rst,m;
+
+wire [3:0] count;
+
+initial
+
+begin
+
+clk=0;
+
+rst=0;
+
+#5;
+
+rst=1;
+
+end
+
+initial
+
+begin
+
+m=1;
+
+#160 m=0;
+
+end
+
+counter counter1 (clk,m,rst, count);
+
+always #5 clk=~clk;
+ 
+initial $monitor("Time=%t rst=%b clk=%b count=%b" , $time,rst,clk,count);
+
+initial
+
+#320 $finish;
+
+endmodule
 ### Test-bench code for 4-Bit Up-Down Counter:
 
 */Test bench Program  for  4-Bit Up-Down Counter
@@ -80,8 +156,10 @@ It will invoke the nclaunch window for functional simulation we can compile,elab
 Select Multiple Step and then select “Create cds.lib File” as shown in below figure
 
 Click the cds.lib file and save the file by clicking on Save option
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (2)](https://github.com/user-attachments/assets/dcf06aea-aded-471b-af36-0c092385acc5)
 
 ## Fig 4: cds.lib file Creation
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (3)](https://github.com/user-attachments/assets/a6a876dc-02d0-43a4-b943-8fa9453c7ec2)
 
 	Save cds.lib file and select the correct option for cds.lib file format based on the  HDL Language and Libraries used.
 
@@ -98,12 +176,17 @@ Click the cds.lib file and save the file by clicking on Save option
 	Left side you can see the HDL files. Right side of the window has worklib and snapshots directories listed.
 
 	Worklib is the directory where all the compiled codes are stored while Snapshot will have output of elaboration which in turn goes for simulation
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (4)](https://github.com/user-attachments/assets/ecb1d5e2-4f2f-474f-ad7d-897798e2aaef)
 
 ## Fig 6: Nclaunch Window
+
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (5)](https://github.com/user-attachments/assets/ab7389ce-3edf-4d4d-8cce-de1ac9f8ad77)
 
 To perform the function simulation, the following three steps are involved Compilation, Elaboration and Simulation.
 
 ## Step 1: Compilation:– Process to check the correct Verilog language syntax and usage 
+
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (5)](https://github.com/user-attachments/assets/b4898b64-9ecf-4db6-96da-6f8366ce1e01)
 
 	Inputs: Supplied are Verilog design and test bench codes 
 
@@ -125,6 +208,8 @@ i.e Cadence IES command for compile: ncverilog +access+rwc -compile fa.v
 
 ## Fig 7: Compiled database in worklib
 
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (6)](https://github.com/user-attachments/assets/216ad836-2807-45b2-961b-39eef9769dba)
+
 	After compilation it will come under worklib you can see in right side window
 
 	Select the test bench and compile it. It will come under worklib. Under Worklib you can see the module and test-bench. 
@@ -133,6 +218,8 @@ i.e Cadence IES command for compile: ncverilog +access+rwc -compile fa.v
 It contains statements that map logical library names to their physical directory paths. For this Design, you will define a library called “worklib”
 
 ## Step 2: Elaboration:– To check the port connections in hierarchical design 
+
+
 
 	Inputs: Top level design / test bench Verilog codes
 
@@ -152,7 +239,13 @@ It contains statements that map logical library names to their physical director
     
 	After elaboration the file will come under snapshot. Select the test bench and simulate it. 
 
+
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (7)](https://github.com/user-attachments/assets/466fe419-69b3-40aa-ad1f-8ff6cfd0c059)
+
+
 ## Fig 8: Elaboration Launch Option
+
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (8)](https://github.com/user-attachments/assets/afa2b881-9041-47bc-98eb-0995ffe06852)
 
 ### Step 3: Simulation: – Simulate with the given test vectors over a period of time to observe the output behaviour. 
 
@@ -166,9 +259,15 @@ It contains statements that map logical library names to their physical director
 
 ## Fig 9: Design Browser window for simulation
 
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (8)](https://github.com/user-attachments/assets/a021d7bc-b14e-4689-8060-6c936b12f808)
+
 ## Fig 10: Simulation Waveform Window
 
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (9)](https://github.com/user-attachments/assets/dbec733b-fe2e-40d5-af68-28c82a930f2d)
+
 ## Fig 11: Simulation Waveform Window
+
+![WhatsApp Image 2025-05-16 at 5 47 40 PM (10)](https://github.com/user-attachments/assets/924f787a-9f97-496d-b383-67b6d2c94d95)
 
 ### Result
 
